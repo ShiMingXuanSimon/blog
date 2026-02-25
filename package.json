@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build":"vitepress build docs"
+    "dev": "vitepress dev docs",
+    "build": "node node_modules/vitepress/bin/vitepress.js build docs",
+    "preview": "vitepress preview docs"
   },
   "keywords": [],
   "author": "",
