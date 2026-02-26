@@ -11,26 +11,62 @@ let sidebarItems = []
 if (fs.existsSync(postsDir)) {
   const files = fs.readdirSync(postsDir)                       // 读取posts下所有文件
   const mdFiles = files.filter(file => file.endsWith('.md'))   // 保留.md
-  sidebarItems = mdFiles.map(file => {         // 遍历.md，提取标题和链接
+
+  // 遍历.md，提取标题和链接
+  sidebarItems = mdFiles.map(file => {
     const filePath = path.join(postsDir, file)    // 文件的完整路径
     const content = fs.readFileSync(filePath, 'utf-8') // 读取文件内容（同步读取）
     const { data } = matter(content)                 // 使用gray-matter解析frontmatter并返回一个对象，data属性即frontmatter的键值对
     const title = data.title || file.replace(/\.md$/, '') // 获取标题，如果没写 title 则回退到文件名（去掉 .md）
     const link = `/posts/${file.replace(/\.md$/, '')}`    // 生成链接路径（去掉 .md 后缀，VitePress 会自动处理）
-    // 返回侧边栏项对象
-    return { text: title, link }
+
+    // 处理日期：有date字段，转为时间戳；否则为0
+    let dateValue = 0
+    if (data.date) {
+      const parsedDate = new Date(data.date)
+      // 确保解析成功（避免无效日期）
+      if (!isNaN(parsedDate)) {
+        dateValue = parsedDate.getTime()
+      }
+      } else {
+        console.warn(`警告：文件 ${file} 中的日期格式无效：${data.date}`)
+      }
+    
+    // 返回侧边栏项对象，包含日期信息
+    return { text: title, link, date: dateValue, rawDate: data.date }
   })
 
-  // 4. 排序：可以按文件名（包含日期）倒序，或者按 frontmatter 中的 date 字段排序
-  // 这里假设文件名以 YYYY-MM-DD 开头，例如 "2026-02-26-我的第一篇文章.md"
-  // 这样按文件名倒序就能让最新文章排在前面
-  sidebarItems.sort((a, b) => {
-    // a.link 是 /posts/2026-02-26-xxx 这样的格式，提取文件名部分
-    const aName = a.link.replace('/posts/', '')
-    const bName = b.link.replace('/posts/', '')
-    // 字符串倒序比较（最新的日期大，因为 2026-02-26 > 2026-02-25）
-    return bName.localeCompare(aName)
+
+  // 调试：在终端输出每篇文章的标题和日期值
+  console.log('文章列表（调试信息）：')
+  sidebarItems.forEach(item => {
+    console.log(`  ${item.text} => date: ${item.date} (原始: ${item.rawDate})`)
   })
+
+  // 4. 排序：按文件名（包含日期）倒序
+  // 假设文件名以 YYYY-MM-DD 开头，例如 "2026-02-26-我的第一篇文章.md"
+  // sidebarItems.sort((a, b) => {
+  //   // a.link 是 /posts/2026-02-26-xxx 这样的格式，提取文件名部分
+  //   const aName = a.link.replace('/posts/', '')
+  //   const bName = b.link.replace('/posts/', '')
+  //   // 字符串倒序比较（最新的日期大，因为 2026-02-26 > 2026-02-25）
+  //   return bName.localeCompare(aName)
+  // })
+
+  // 4. 排序：按 frontmatter 中的 date 字段排序
+  sidebarItems.sort((a, b) => {
+    // 如果两者都有有效日期（>0）
+    if (a.date > 0 && b.date > 0) {
+      return b.date - a.date
+    }
+    // 只有a有日期，排前面
+    if (a.date > 0 && b.date === 0) return -1
+    // 只有b有日期，排前面
+    if (a.date === 0 && b.date > 0) return 1
+    // 都无日期，保持原顺序
+    return 0
+  })
+
 } else {
   console.warn('警告：posts 目录不存在，侧边栏将为空')
 }
