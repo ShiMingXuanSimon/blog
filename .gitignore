@@ -1,3 +1,9 @@
 node_modules/
 docs/.vitepress/dist/
 docs/.vitepress/cache/
+
+# 忽略测试排序的文件
+docs/posts/test1.md
+docs/posts/test1 copy.md
+docs/posts/test1 copy 2.md
+docs/posts/test1 copy 3.md
