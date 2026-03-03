@@ -8,11 +8,4 @@
 
 以下是博客内容。
 
----
----
-
-# [我在控制台输入的一堆令人无语的命令](./posts/silly-bash.md)
-
----
-
-# [我的第一篇文章](./posts/first-post.md)
+<PostList />
