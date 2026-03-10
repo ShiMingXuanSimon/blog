@@ -5,3 +5,5 @@
 我是ShiMingXuanSimon，你可以在 Bilibili 、 GitHub 等地方找到我。
 
 这里还在施工🚧。
+
+<WalineComment />

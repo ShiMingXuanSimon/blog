@@ -9,3 +9,5 @@
 以下是博客内容。
 
 <PostList />
+
+<WalineComment />

@@ -15,5 +15,8 @@
   "devDependencies": {
     "gray-matter": "^4.0.3",
     "vitepress": "^1.6.4"
+  },
+  "dependencies": {
+    "@waline/client": "^3.13.0"
   }
 }
