@@ -18,6 +18,10 @@ export default {
   ['link', { rel: 'alternate icon', href: '/favicon.png', sizes: '32x32' }]
 ],
   themeConfig: {
+    docsFooter: {
+      prev: false,
+      next: false
+    },
     nav: [
       { text: '首页', link: '/' },
       { text: '关于', link: '/about' },
