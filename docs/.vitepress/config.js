@@ -11,6 +11,7 @@ const sidebarItems = posts.map(post => ({
 
 // 导出 VitePress 配置
 export default {
+  lang: 'zh-cn',
   title: 'SMXS 的博客',
   description: 'ShiMingXuanSimon 的博客',
   head: [
