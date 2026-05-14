@@ -17,6 +17,8 @@
     "vitepress": "^1.6.4"
   },
   "dependencies": {
-    "@waline/client": "^3.13.0"
+    "@waline/client": "^3.13.0",
+    "katex": "^0.16.46",
+    "mark-it": "^0.0.1"
   }
 }
