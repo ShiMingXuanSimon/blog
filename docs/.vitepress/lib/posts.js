@@ -1,7 +1,17 @@
-// 1. 引入 Node.js 核心模块和第三方模块
-const fs = require('fs')          // 文件系统模块，用来读取目录和文件
-const path = require('path')      // 路径模块，用来处理文件路径
-const matter = require('gray-matter') // 用于解析 Markdown 文件的 frontmatter
+// // 1. 引入 Node.js 核心模块和第三方模块
+// const fs = require('fs')          // 文件系统模块，用来读取目录和文件
+// const path = require('path')      // 路径模块，用来处理文件路径
+// const matter = require('gray-matter') // 用于解析 Markdown 文件的 frontmatter
+
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url' // <-- 新增：用于转换 URL 到路径
+import matter from 'gray-matter'
+
+// 获取当前文件的绝对路径
+const __filename = fileURLToPath(import.meta.url)
+// 获取当前文件所在的目录
+const __dirname = path.dirname(__filename)
 
 // 获取文章列表的函数（返回排序后的数组）
 function getPosts() {
@@ -60,4 +70,5 @@ function getPosts() {
   return posts
 }
 
-module.exports = { getPosts }
+// module.exports = { getPosts }
+export { getPosts }

@@ -1,6 +1,6 @@
 const { getPosts } = require('../lib/posts')
 
-module.exports = {
+export default {
   watch: ['./posts/**/*.md'],
   load() {
     // 直接调用公共函数，返回文章数据
